@@ -33,6 +33,9 @@ const addVideos = async (videoLinks) => {
         const id = v4()
         const video = await axios.get(`https://www.youtube.com/oembed?url=${link}&format=json`)
         await learnDB.doc(id).set(video.data)
+        await learnDB.doc(id).set({
+            videoLink: link
+        }, {merge: true})
     }
 }
 const deleteVideos = async () => {

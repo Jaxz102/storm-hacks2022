@@ -14,10 +14,10 @@ admin.initializeApp({
 });
 const db = admin.firestore(); 
 // ////////////////////////////////////////
-
+app.use("/account", require("./routes/account"))
 app.use("/insurance", require("./routes/insurance"))
 app.use("/learn", require("./routes/learn"))
-
+app.use("/studenthub", require("./routes/studenthub"))
 
 
 app.get("/", (req, res) => {return res.send("Backend Live")})
