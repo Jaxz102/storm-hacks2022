@@ -13,7 +13,7 @@ export default {
     name: "Login",
     methods: {
         login(){
-            this.$router.push("/dashboard");
+            this.$router.push("/dashboard/account");
         }
     }
 }
