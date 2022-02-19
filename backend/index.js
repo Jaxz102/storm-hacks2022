@@ -7,6 +7,19 @@ const app = express()
 app.use(cors())
 app.use(bodyParser.json())
 
+const admin = require('firebase-admin')
+const serviceAccount = require('./firebaseAPI');
+admin.initializeApp({
+    credential: admin.credential.cert(serviceAccount)
+});
+const db = admin.firestore(); 
+// ////////////////////////////////////////
+
+
+app.use("/learn", require("./routes/learn"))
+
+
+
 app.get("/", (req, res) => {return res.send("Backend Live")})
 
 
