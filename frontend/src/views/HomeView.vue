@@ -1,8 +1,7 @@
 <template>
-  <div class="home">
-    <img alt="Vue logo" src="../assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
-  </div>
+  <main>
+
+  </main>
 </template>
 
 <script>
@@ -16,3 +15,14 @@ export default {
   }
 }
 </script>
+
+<style lang="scss"scoped>
+@import "../assets/styles.scss";
+
+main{
+  width: 100%;
+  height: 100%;
+  background-color: $bg;
+}
+
+</style>
