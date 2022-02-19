@@ -1,5 +1,5 @@
 <template>
-	
+
 	<main>
 		<nav>
 			<h1>BankAI</h1>
@@ -9,7 +9,7 @@
 				<li>Students</li>
 				<li>About</li>
 			</ul>
-			<button>LOGIN</button>
+			<button @click="login()">LOGIN</button>
 		</nav>
 		<section>
 			<h1 class="heading">Banking built<br>for Students</h1>
@@ -22,13 +22,15 @@
 
 <script>
 // @ is an alias to /src
-import HelloWorld from '@/components/HelloWorld.vue'
+
 
 export default {
-  name: 'HomeView',
-  components: {
-    HelloWorld
-  }
+	name: 'HomeView',
+	methods:{
+		login(){
+			this.$router.push("/login");
+		}
+	}
 }
 </script>
 
