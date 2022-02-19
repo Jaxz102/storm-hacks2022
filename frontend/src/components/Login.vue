@@ -3,14 +3,19 @@
         <h1>Log In</h1>
         <input type="username" placeholder="Your Username" required>
         <input type="password" placeholder="Password" required>
-        <button>Log In</button>
+        <button @click="login()">Log In</button>
     </main>
 </template>
 <script>
 
 
 export default {
-    name: "Login"
+    name: "Login",
+    methods: {
+        login(){
+            this.$router.push("/dashboard");
+        }
+    }
 }
 </script>
 
