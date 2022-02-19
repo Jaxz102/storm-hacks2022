@@ -3,6 +3,11 @@ import Home from '../views/Home.vue'
 import Login from '../components/Login.vue'
 import Dashboard from '../views/Dashboard.vue'
 import Account from '../views/Account.vue'
+import Insurance from '../views/Insurance.vue'
+import Stuhub from '../views/Stuhub.vue'
+import Learn from '../views/Learn.vue'
+import Education from '../views/Edu.vue'
+
 const routes = [
 	{
 		path: '/',
@@ -26,6 +31,22 @@ const routes = [
 			{
 				path: "account",
 				component: Account,
+			},
+			{
+				path: "insurance",
+				component: Insurance,
+			},
+			{
+				path: "stuhub",
+				component: Stuhub,
+			},
+			{
+				path: "learn",
+				component: Learn,
+			},
+			{
+				path: "edu",
+				component: Education,
 			}
 		]
 	}

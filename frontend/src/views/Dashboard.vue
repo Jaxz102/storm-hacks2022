@@ -6,7 +6,7 @@
 import styles from "@/assets/styles.json"
 import Dashnav from "@/components/Dashnav.vue"
 export default {
-    name: "Dashbaord",
+    name: "Dashboard",
     components: {
         Dashnav
     },

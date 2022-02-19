@@ -1,9 +1,9 @@
 <template>
     <main class="main">
-        <h1>Hello, Jax Wang</h1>
+        <h1>Education</h1>
         <section class="head">
             <div class="head__balance">
-                <h2 class="head__balance--amount">$100,000</h2>
+                <h2 class="head__balance--amount">Your Education</h2>
             </div>
 
         </section>
@@ -13,7 +13,7 @@
 import styles from "@/assets/styles.json"
 
 export default {
-    name: "Account",
+    name: "Education",
     
     data(){
         return{
@@ -21,7 +21,7 @@ export default {
         }
     },
     mounted(){
-        this.$store.commit("changeTab", 0);
+        this.$store.commit("changeTab", 3);
     }
 }
 </script>

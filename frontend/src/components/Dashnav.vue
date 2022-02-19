@@ -56,6 +56,17 @@ export default {
             this.tab[3] = 0;
             this.tab[4] = 0;
             this.tab[index] = 1;
+            if(index == 0){
+                this.$router.push("/dashboard");
+            }else if(index == 1){
+                this.$router.push("/dashboard/insurance");
+            }else if(index == 2){
+                this.$router.push("/dashboard/stuhub");
+            }else if(index == 3){
+                this.$router.push("/dashboard/edu");
+            }else if(index == 4){
+                this.$router.push("/dashboard/learn");
+            }
         },
         logout(){
             this.$router.push("/");
@@ -70,6 +81,7 @@ export default {
             sun.classList.toggle('visible');
             moon.classList.toggle('visible');
         })
+        this.tab = this.$store.state.tabs;
 
     }
 }
