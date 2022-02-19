@@ -43,13 +43,13 @@ const deleteVideos = async () => {
         })
     })
 }
-addVideos([
-    "https://www.youtube.com/watch?v=JEqQHmVE-_g&list=PLRz9ao70iRy1L-MCczfyZDMHQZcduFCvw&index=1",
-    "https://www.youtube.com/watch?v=R-fLM70b1ok&list=PLRz9ao70iRy1L-MCczfyZDMHQZcduFCvw&index=2",
-    "https://www.youtube.com/watch?v=z-DgiaMwQU0&list=PLRz9ao70iRy1L-MCczfyZDMHQZcduFCvw&index=3",
-    "https://www.youtube.com/watch?v=tEmLcs6e-cY&list=PLRz9ao70iRy1L-MCczfyZDMHQZcduFCvw&index=5",
-    "https://www.youtube.com/watch?v=N2BHZjO5a7Q&list=PLRz9ao70iRy1L-MCczfyZDMHQZcduFCvw&index=7"
-])
+// addVideos([
+//     "https://www.youtube.com/watch?v=JEqQHmVE-_g&list=PLRz9ao70iRy1L-MCczfyZDMHQZcduFCvw&index=1",
+//     "https://www.youtube.com/watch?v=R-fLM70b1ok&list=PLRz9ao70iRy1L-MCczfyZDMHQZcduFCvw&index=2",
+//     "https://www.youtube.com/watch?v=z-DgiaMwQU0&list=PLRz9ao70iRy1L-MCczfyZDMHQZcduFCvw&index=3",
+//     "https://www.youtube.com/watch?v=tEmLcs6e-cY&list=PLRz9ao70iRy1L-MCczfyZDMHQZcduFCvw&index=5",
+//     "https://www.youtube.com/watch?v=N2BHZjO5a7Q&list=PLRz9ao70iRy1L-MCczfyZDMHQZcduFCvw&index=7"
+// ])
 // deleteVideos()
 
 module.exports = router

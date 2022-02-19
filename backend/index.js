@@ -15,7 +15,7 @@ admin.initializeApp({
 const db = admin.firestore(); 
 // ////////////////////////////////////////
 
-
+app.use("/insurance", require("./routes/insurance"))
 app.use("/learn", require("./routes/learn"))
 
 
