@@ -8,7 +8,21 @@
             </div>
             
         </section>
-        <section class="transaction"></section>
+        <section class="transaction" :style="{'background-color': styles.transactionbg[getMode], 'border-color': styles.transboxborder[getMode]}">
+            <div class="transaction__title" :style="{'border-bottom-color': styles.transborder[getMode]}">
+                <p class="transaction__title--prop date" :style="{'color': styles.headertext[getMode]}">Date</p>
+                <p class="transaction__title--prop name" :style="{'color': styles.headertext[getMode]}">Name</p>
+                <p class="transaction__title--prop amount" :style="{'color': styles.headertext[getMode]}">Amount</p>
+                <p class="transaction__title--prop balance" :style="{'color': styles.headertext[getMode]}">Balance</p>
+            </div>
+            <div class="transaction__item" v-for="item in transactions" :style="{'border-bottom-color': styles.transborder[getMode]}">
+                <p class="transaction__item--prop date" :style="{'color': styles.normaltext[getMode]}">{{item.prettyDate}}}</p>
+                <p class="transaction__item--prop name" :style="{'color': styles.normaltext[getMode]}">{{item.transactionName}}</p>
+                <p class="transaction__item--prop amount" :style="{'color': styles.normaltext[getMode]}">{{item.amount}}</p>
+                <p class="transaction__item--prop balance" :style="{'color': styles.normaltext[getMode]}">-$50.00</p>
+            </div>
+        </section>
+        <footer></footer>
     </main>
 </template>
 <script>
@@ -22,6 +36,7 @@ export default {
             styles: styles,
             navwidth: "300px",
             dark: this.$store.state.dark,
+            transactions: [""]
         }
         
     },
@@ -33,6 +48,13 @@ export default {
     mounted(){
         this.$store.commit("changeTab", 0);
         this.dark = this.$store.state.dark;
+
+        const prom = fetch("http://localhost:3000/account/", {
+            method: 'GET',
+        }).then(response => response.json()).then(data => {
+            console.log(data.data);
+            this.transactions = data.data;
+        });
     }
 }
 </script>
@@ -44,6 +66,7 @@ export default {
     float: right;
     height: 100%;
     width: calc(100% - 300px);
+    overflow: scroll;
     & > h1{
         text-align: left;
         padding: 30px 100px;
@@ -78,5 +101,77 @@ export default {
         }
 
     }
+}
+
+.transaction{
+
+    
+    width: calc(100% - 200px);
+    margin: auto;
+    background-color: white;
+    padding: 20px 20px;
+    margin-top: 40px;
+    border-radius: 20px;
+    // box-shadow: 0px 0px 5px 0px rgba(158, 158, 158, 0.39);
+    
+    border-width: 3px;
+    border-style: solid;
+
+
+    &__title{
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        
+        border-bottom-width: 1px;
+        border-bottom-style: solid;
+        
+        
+
+        &--prop{
+            font-size: 20px;
+            font-weight: 500;
+            text-align: left;
+     
+
+        }
+    }
+
+    &__item{
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        border-bottom-width: 1px;
+        border-bottom-style: solid;
+        height: 80px;
+        align-items: center;
+
+        &--prop{
+            font-size: 15px;
+            text-align: left;
+     
+        }
+    }
+
+}
+
+.date{
+    flex: 1.5;
+    padding: 0px 20px 0px 0px;
+}
+.name{
+    flex: 1;
+}
+.amount{
+    flex: 1;
+}
+.balance{
+    flex: 1;
+}
+
+footer{
+    width: 100%;
+    height: 50px;
+    visibility: hidden;
 }
 </style>

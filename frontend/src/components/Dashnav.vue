@@ -93,7 +93,7 @@ export default {
             moon.classList.toggle('visible');
         })
         this.tab = this.$store.state.tabs;
-        console.log("MOUTNED WHEN CHANGE");
+        
 
     }
 }
