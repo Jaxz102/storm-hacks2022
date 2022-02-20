@@ -35,7 +35,8 @@ export default {
     width: calc(100% - 300px);
     & > h1{
         text-align: left;
-        padding: 30px 50px;
+        padding: 30px 100px;
+        font-size: 50px;
     }
 }
 .head{

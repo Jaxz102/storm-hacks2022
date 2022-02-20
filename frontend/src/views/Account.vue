@@ -4,7 +4,7 @@
         <section class="head">
             <div class="head__balance">
                 <h2 class="head__balance--title">Balance</h2>
-                <h2 class="head__balance--amount">$100,000</h2>
+                <h2 class="head__balance--amount">${{balance}}</h2>
             </div>
             
         </section>
@@ -16,10 +16,11 @@
                 <p class="transaction__title--prop balance" :style="{'color': styles.headertext[getMode]}">Balance</p>
             </div>
             <div class="transaction__item" v-for="item in transactions" :style="{'border-bottom-color': styles.transborder[getMode]}">
-                <p class="transaction__item--prop date" :style="{'color': styles.normaltext[getMode]}">{{item.prettyDate}}}</p>
+                <p class="transaction__item--prop date" :style="{'color': styles.normaltext[getMode]}">{{item.prettyDate}}<br>{{item.prettyTime}}</p>
                 <p class="transaction__item--prop name" :style="{'color': styles.normaltext[getMode]}">{{item.transactionName}}</p>
-                <p class="transaction__item--prop amount" :style="{'color': styles.normaltext[getMode]}">{{item.amount}}</p>
-                <p class="transaction__item--prop balance" :style="{'color': styles.normaltext[getMode]}">-$50.00</p>
+                <p class="transaction__item--prop amount" :style="{'color': '#50d5b7'}" v-if="item.transactionType == 'debit'">+${{item.amount}}</p>
+                <p class="transaction__item--prop amount" :style="{'color': '#d55050'}" v-else-if="item.transactionType == 'credit'">-${{item.amount}}</p>
+                <p class="transaction__item--prop balance" :style="{'color': styles.normaltext[getMode]}">{{item.accountBalance}}</p>
             </div>
         </section>
         <footer></footer>
@@ -36,7 +37,8 @@ export default {
             styles: styles,
             navwidth: "300px",
             dark: this.$store.state.dark,
-            transactions: [""]
+            transactions: [],
+            balance: 0
         }
         
     },
@@ -54,6 +56,7 @@ export default {
         }).then(response => response.json()).then(data => {
             console.log(data.data);
             this.transactions = data.data;
+            this.balance = data.accountBalance;
         });
     }
 }
@@ -149,18 +152,29 @@ export default {
         &--prop{
             font-size: 15px;
             text-align: left;
+            
      
+        }
+
+        & > .amount{
+            font-weight: 500;
+            font-size: 20px;
+        }
+
+        & > .balance{
+            font-weight: 500;
+            font-size: 20px;
         }
     }
 
 }
 
 .date{
-    flex: 1.5;
-    padding: 0px 20px 0px 0px;
+    flex: 1;
+    padding: 0px 0px 0px 0px;
 }
 .name{
-    flex: 1;
+    flex: 1.5;
 }
 .amount{
     flex: 1;
