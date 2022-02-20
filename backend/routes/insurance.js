@@ -101,20 +101,43 @@ router.post("/getOCR", async (req, res) => {
 
 
 
-const rectangles = [
-  {
-    left: 0,
-    top: 0,
-    width: 750,
-    height: 250,
-  },
-  {
-    left: 500,
-    top: 0,
-    width: 500,
-    height: 250,
-  },
-];
+router.post("/createClaim", async (req, res) => {
+  const {company, companyAddress, companyInfo, date, amount, fileId} = req.body
+  await insuranceDB.doc(fileId).set({
+    company: company,
+    companyAddress: companyAddress,
+    companyInfo: companyInfo,
+    date: date,
+    amount: amount,
+    sortDate: Date.now()
+  })
+  return res.json({success: true})
+})
+
+router.get("/", async (req, res) => {
+  var insuranceClaims = []
+  const queryset = await insuranceDB.orderBy("sortDate", "desc").limit(5).get()
+  queryset.forEach((claim) => {
+    insuranceClaims.push(claim.data())
+  })
+  return res.json({data: insuranceClaims})
+})
+
+
+// const rectangles = [
+//   {
+//     left: 0,
+//     top: 0,
+//     width: 750,
+//     height: 250,
+//   },
+//   {
+//     left: 500,
+//     top: 0,
+//     width: 500,
+//     height: 250,
+//   },
+// ];
 // func()
 // console.log(data)
 
