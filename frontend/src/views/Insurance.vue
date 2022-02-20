@@ -2,8 +2,10 @@
     <main class="main">
         <h1>Insurance</h1>
         <!-- <img id="img" src="../assets/images/Apple.png" alt="" class="selectable"> -->
-        <canvas id="canvas" :width="canvasWidth" :height="canvasHeight" @mousedown="mouseDown($event)" @mouseup="mouseUp($event)" @mousemove="mouseMove($event)"></canvas>
-
+        <canvas id="canvas" :width="canvasWidth" :height="canvasHeight" @mousedown="mouseDown($event)" @mouseup="mouseUp($event)" @mousemove="mouseMove($event)">
+            
+        </canvas>
+        <img :src="require(`../../../backend/public/${imagesrc}`)" alt="">
         <section class="upload__form">
                 <input type="file" id="photoinput">
                 <button class="upload__form--button" @click="uploadFile()">Upload</button>
@@ -15,7 +17,7 @@ import styles from "@/assets/styles.json"
 
 export default {
     name: "Insurance",
-    
+    //    ../../../backend/public/insuranceUploads/a64b4fe3-8e95-4618-bbb8-05d91e95a242.png
     data(){
         return{
             styles: styles,
@@ -28,7 +30,8 @@ export default {
             canvas: null,
             ctx: null,
             canvasHeight: "400",
-            canvasWidth: "350"
+            canvasWidth: "350",
+            imagesrc: "insuranceUploads/a64b4fe3-8e95-4618-bbb8-05d91e95a242.png"
         }
     },
     methods:{
@@ -79,30 +82,39 @@ export default {
             console.log("3");
             fd.append('myFile', input.files[0]);
             console.log("4");
-			const prom = fetch('http://localhost:3000/insurance/uploadInsurance', {
+			const prom = fetch('http://localhost:3000/insurance/insuranceUpload', {
         		method: 'POST',
         		body: fd
     		}).then(res => res.json()).then(data => {
 				console.log(data);
+                console.log(data.imagePath);
+                this.imagesrc = data.imagePath;
+                console.log("HIII")
+                console.log(this.imagesrc)
 			})
 			.catch(err => console.error(err));
 		},
-        fileChange(e){
-            let files = e.target.files
-            let formData = new FormData()
-            formData.append('myFile', files[0])
+        // fileChange(e){
+        //     let files = e.target.files
+        //     let formData = new FormData()
+        //     formData.append('insuranceFile', files[0])
 
-            const prom = fetch('http://localhost:3000/insurance/uploadInsurance', {
+        //     const prom = fetch('http://localhost:3000/insurance/uploadInsurance', {
 			
-        		method: 'POST',
-                headers: {'Content-Type': 'multipart/form-data'},
-        		body: formData
-    		}).then(res => res.json()).then(data => {
-				console.log(data);
-			}).catch(err => console.error(err));
+        // 		method: 'POST',
+        //         headers: {'Content-Type': 'multipart/form-data'},
+        // 		body: formData
+    	// 	}).then(res => res.json()).then(data => {
+        //         // console.log(data.type);
+		// 		// console.log(data.json());
+        //         // console.log(data.imagePath);
+        //         // this.imagesrc = data.imagePath;
+        //         // console.log("HIII")
+        //         // console.log(this.imagesrc)
+		// 	}).catch(err => console.error(err));
 
 
-        }
+        // }
     },
     mounted(){
         this.$store.commit("changeTab", 1);
@@ -137,6 +149,8 @@ export default {
 
 img{
     user-select: none;
+    height: 400px;
+    width: 200px;
 }
 
 #canvas{

@@ -34,19 +34,22 @@ router.post('/insuranceUpload', async (req, res) => {
     return res.status(400).send('No files were uploaded.');
   }
   // Upload
-  var insuranceFile = req.files.insuranceFile;
+  var insuranceFile = req.files.myFile;
   uploadPath = process.env.INSURANCE_FILE_PATH + insuranceFile.name;
-  var insuranceFileId = await insuranceFile.mv(uploadPath, (err) => {
+  var insuranceFileId = insuranceFile.mv(uploadPath, (err) => {
     if (err) {return res.status(500).send(err);}
   })
   // Rename file
   insuranceFileId = v4()
   const fileExtension = path.extname(uploadPath)
   const renameFilePath = process.env.INSURANCE_FILE_PATH + insuranceFileId + fileExtension
-  fs.renameSync(uploadPath, renameFilePath)
+  setTimeout(()=>fs.renameSync(uploadPath, renameFilePath), 1000)
+  console.log("ok")
 
+  var relativePath = renameFilePath.split("/").slice(-2).join("/")
 
-  setTimeout(()=>res.sendFile(renameFilePath), 2000)
+  setTimeout(()=>{return res.json({imagePath: relativePath})}, 500)
+  // return res.json({imagePath: renameFilePath})
 })
 
 

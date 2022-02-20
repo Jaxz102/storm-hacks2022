@@ -10,6 +10,8 @@ app.use(cors())
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(fileUpload())
+app.use(express.static('public'))
+app.use('/static', express.static('/Users/jaxz/Desktop/storm-hacks2022/backend/public'))
 
 const admin = require('firebase-admin')
 const serviceAccount = require('./firebaseAPI');
