@@ -1,10 +1,16 @@
 const express = require("express")
 const router = express.Router()
 const {v4} = require("uuid")
+const cors = require("cors")
 const axios = require('axios')
+const fileUpload = require("express-fileupload")
+const path = require('path');
 
 const admin = require("firebase-admin");
 const db = admin.firestore()
+
+router.use(fileUpload())
+router.use(cors())
 
 const parseDate = (date) => {
   const prettyDate = date.split(" ").slice(1, 4).join(" ")
@@ -12,27 +18,46 @@ const parseDate = (date) => {
   return {prettyTime: prettyTime, prettyDate: prettyDate}
 }
 
+router.get("/", (req, res) => {
+  var options = {
+    root: "C:/Users/Ryan Lam/Desktop/storm-hacks2022/backend/public/insuranceUploads/"
+  };
+  var fileName = 'paramedical-sample-receipt.jpg';
 
-// const uploadImage = async (imagePath) => {
+  res.sendFile("C:/Users/Ryan Lam/Desktop/storm-hacks2022/backend/public/insuranceUploads/paramedical-sample-receipt.jpg");
+})
 
-// }
+
+router.post("uploadInsurance", (res, req) => {
+  if (!req.files || Object.keys(req.files).length === 0) {
+    return res.status(400).send('No files were uploaded.');
+  }
+  const insuranceFile = req.files.insuranceFile
+  const uploadPath = process.env.INSURANCE_FILE_PATH + insuranceFile.name
+  insuranceFile.mv(uploadPath, (err) => {
+    if (err) {
+      return res.status(500).send(err)
+    }
+    res.send('File uploaded!')
+  })
+
+//   var options = {
+//     root: path.join(__dirname)
+//   };
+ 
+// var fileName = 'GeeksforGeeks.txt';
+
+})
+
+
+
+
+
+
+
+
+
 const { createWorker, createScheduler } = require('tesseract.js')
-
-// const func = async () => {
-//     console.log("Running OCR")
-//     const worker = createWorker();
-//     console.log("Worker Created")
-//     await worker.load();
-//     console.log("Worker Loaded")
-//     await worker.loadLanguage('eng')
-//     await worker.initialize('eng');
-//     console.log("Set language and init");
-//     const { data: { text, confidence } } = await worker.recognize("C:/Users/Ryan Lam/Desktop/storm-hacks2022/backend/public/uploads/Sample-Doctors-Recipt-Template.jpg");
-//     return [text, confidence]
-//     // const data = await worker.recognize("C:/Users/Ryan Lam/Desktop/storm-hacks2022/backend/public/uploads/Sample-Doctors-Recipt-Template.jpg");
-//     // console.log(data);
-//     // return data
-//   }
 const worker = createWorker();
 const rectangles = [
   {
@@ -68,11 +93,12 @@ const func = async () => {
 
 
 
-// router.get("/", async (req, res) => {
-//     const data = await func()
-//     console.log("Done!")
-//     return res.send(data)
-// })
+
+
+
+
+
+
 
 
 module.exports = router
