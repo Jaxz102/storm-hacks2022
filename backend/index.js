@@ -15,10 +15,16 @@ app.use('/static', express.static('/Users/jaxz/Desktop/storm-hacks2022/backend/p
 
 const admin = require('firebase-admin')
 const serviceAccount = require('./firebaseAPI');
+const { getStorage } = require("firebase/storage")
 admin.initializeApp({
-    credential: admin.credential.cert(serviceAccount)
+    credential: admin.credential.cert(serviceAccount),
+    storageBucket: "gs://stormhacks-76638.appspot.com/"
 });
 const db = admin.firestore(); 
+const storage = getStorage();
+
+
+
 // ////////////////////////////////////////
 app.use("/account", require("./routes/account"))
 app.use("/insurance", require("./routes/insurance"))

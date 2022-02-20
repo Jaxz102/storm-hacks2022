@@ -3,7 +3,7 @@
         <h1>Insurance</h1>
         <!-- <img id="img" src="../assets/images/Apple.png" alt="" class="selectable"> -->
         <canvas id="canvas" :width="canvasWidth" :height="canvasHeight" @mousedown="mouseDown($event)" @mouseup="mouseUp($event)" @mousemove="mouseMove($event)">
-            <img :src="require(`../../../backend/public/${imagesrc}`)" alt="">
+            
         </canvas>
         
         <section class="upload__form">
