@@ -1,12 +1,9 @@
 <template>
     <main class="main">
         <h1>Insurance</h1>
-        <section class="head">
-            <div class="head__balance">
-                <h2 class="head__balance--amount">Your Insurance</h2>
-            </div>
+        <img id="img" src="../assets/images/Apple.png" alt="" class="selectable" @mousedown="mouseDown($event)" @mouseup="mouseUp($event)" @mousemove="mouseMove($event)">
+        <canvas id="canvas" width="800" height="650" @mousedown="mouseDown($event)" @mouseup="mouseUp($event)" @mousemove="mouseMove($event)"></canvas>
 
-        </section>
     </main>
 </template>
 <script>
@@ -17,11 +14,65 @@ export default {
     
     data(){
         return{
-            navwidth: "300px"
+            styles: styles,
+            rect: {},
+            drag: false,
+            startpos: [],
+            endpos: [],
+            offsetLeft: 0,
+            offsetTop: 0
+
+        }
+    },
+    methods:{
+        mouseDown(e){
+            // new DragSelect({
+            // selectables: document.querySelectorAll('.selectable'),
+            // callback: e => console.log(e)
+            // });
+            // var rect = e.target.getBoundingClientRect();
+            // var x = e.clientX - rect.left; //x position within the element.
+            // var y = e.clientY - rect.top;  //y position within the element.
+            // console.log("Left? : " + x + " ; Top? : " + y + ".");
+
+            this.rect.startX = e.pageX - this.offsetLeft;
+            this.rect.startY = e.pageY - this.offsetTop;
+            this.drag = true;
+        },
+        mouseUp(e){
+            this.drag = false;
+            let canvas = document.getElementById('canvas');
+            let ctx = canvas.getContext('2d');
+            ctx.clearRect(0,0,canvas.width,canvas.height);
+        },
+        mouseMove(e){
+            if (this.drag == true) {
+                let canvas = document.getElementById('canvas');
+                let ctx = canvas.getContext('2d');
+
+                this.rect.w = (e.pageX - this.offsetLeft) -  this.rect.startX;
+                this.rect.h = (e.pageY - this.offsetTop) - this.rect.startY;
+                ctx.clearRect(0,0,canvas.width,canvas.height);
+                this.draw();
+            }
+        },
+        draw(){
+            console.log("DRAW IS CALLED");
+            let canvas = document.getElementById('canvas');
+            let ctx = canvas.getContext('2d');
+            ctx.setLineDash([6]);
+            ctx.strokeRect(this.rect.startX, this.rect.startY, this.rect.w, this.rect.h);
         }
     },
     mounted(){
         this.$store.commit("changeTab", 1);
+
+        let canvas = document.getElementById('canvas');
+        this.offsetLeft = canvas.offsetLeft;
+        this.offsetTop = canvas.offsetTop;
+        
+
+        
     }
 }
 </script>
@@ -33,27 +84,18 @@ export default {
     float: right;
     height: 100%;
     width: calc(100% - 300px);
+    overflow: scroll;
     & > h1{
         text-align: left;
         padding: 30px 50px;
     }
 }
-.head{
-    display: flex;
-    flex-direction: row;
 
-    &__balance{
-        height: 200px;
-        width: 400px;
-        background: rgb(80,213,183);
-        background: linear-gradient(338deg, rgba(80,213,183,1) 0%, rgba(66,185,131,1) 100%);
-        margin-left: 100px;
-        border-radius: 20px;
-        &--amount{
-            font-size: 30px;
-            color: white;
-        }
+img{
+    user-select: none;
+}
 
-    }
+#canvas{
+    background-color: rgba(252, 117, 117, 0.445);
 }
 </style>
