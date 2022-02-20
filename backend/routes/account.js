@@ -24,7 +24,6 @@ const getEvents = async () => {
 router.get("/", async (req, res) => {
     console.log("GET account events")
     const events = await getEvents()
-    console.log(`${process.env.FILE_PATH}`)
     return res.send(events)
 })
 
@@ -74,7 +73,6 @@ const deleteEvents = async () => {
         })
     })
 }
-// deleteEvents()
 const showEvents = async () => {
     console.log("Getting account events")
     var events = []
@@ -82,6 +80,7 @@ const showEvents = async () => {
     eventQueryset.forEach((event) => events.push(event.data()))
     console.log(events)
 }
+// deleteEvents()
 // showEvents()
 
 
