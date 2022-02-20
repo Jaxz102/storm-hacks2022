@@ -3,9 +3,9 @@
         <h1>Insurance</h1>
         <!-- <img id="img" src="../assets/images/Apple.png" alt="" class="selectable"> -->
         <canvas id="canvas" :width="canvasWidth" :height="canvasHeight" @mousedown="mouseDown($event)" @mouseup="mouseUp($event)" @mousemove="mouseMove($event)">
-            
+            <img :src="require(`../../../backend/public/${imagesrc}`)" alt="">
         </canvas>
-        <img :src="require(`../../../backend/public/${imagesrc}`)" alt="">
+        
         <section class="upload__form">
                 <input type="file" id="photoinput">
                 <button class="upload__form--button" @click="uploadFile()">Upload</button>
@@ -143,7 +143,8 @@ export default {
     overflow: scroll;
     & > h1{
         text-align: left;
-        padding: 30px 50px;
+        padding: 30px 100px;
+        font-size: 50px;
     }
 }
 
