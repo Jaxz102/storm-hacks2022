@@ -17,6 +17,16 @@ router.get("/", async (req, res) => {
     return res.send(studentDeals)
 })
 
+router.delete("/", async (req, res) => {
+    console.log("Deleting student deal")
+    const {dealId} = req.body
+    await studenthubDB.doc(dealId).delete()
+    return res.json({success: true})
+})
+
+
+
+
 
 
 
@@ -27,7 +37,7 @@ const addDeal = async (deal) => {
         data: deal
     })
 }
-const deleteDeal = async () => {
+const deleteDeals = async () => {
     console.log("Deleting deals from DB")
     await studenthubDB.get().then(querySnapshot => {
         querySnapshot.docs.forEach(snapshot => {
@@ -36,7 +46,7 @@ const deleteDeal = async () => {
     })
 }
 // addDeal("1234543feahkdwea21")
-// deleteDeal()
+// deleteDeals()
 
 
 

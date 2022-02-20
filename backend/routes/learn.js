@@ -11,8 +11,12 @@ const learnDB = db.collection("learn")
 
 // Get list of videos
 router.get("/", async (req, res) => {
-    const videos = await learnDB.doc("fuUthFHlVpkZrNNu1XQ1").get()
-    return res.send(videos.data())
+    var videos = []
+    const videoList = await learnDB.limit(5).get()
+    videoList.forEach((video) => {
+        videos.push(video.data())
+    })
+    return res.json({data: videos})
 })
 
 // Suggest a video
