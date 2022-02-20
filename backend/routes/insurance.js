@@ -11,45 +11,83 @@ const admin = require("firebase-admin");
 const db = admin.firestore()
 const insuranceDB = db.collection("insurance")
 
-router.use(fileUpload())
-router.use(cors())
-
 const parseDate = (date) => {
   const prettyDate = date.split(" ").slice(1, 4).join(" ")
   const prettyTime = date.split(" ")[4].slice(0, -3)
   return {prettyTime: prettyTime, prettyDate: prettyDate}
 }
 
-router.get("/", (req, res) => {
-  var options = {
-    root: "C:/Users/Ryan Lam/Desktop/storm-hacks2022/backend/public/insuranceUploads/"
-  };
-  var fileName = 'paramedical-sample-receipt.jpg';
+// router.get("/", (req, res) => {
+//   var options = {
+//     root: "C:/Users/Ryan Lam/Desktop/storm-hacks2022/backend/public/insuranceUploads/"
+//   };
+//   var fileName = 'paramedical-sample-receipt.jpg';
 
-  res.sendFile("C:/Users/Ryan Lam/Desktop/storm-hacks2022/backend/public/insuranceUploads/paramedical-sample-receipt.jpg");
-})
+//   res.sendFile("C:/Users/Ryan Lam/Desktop/storm-hacks2022/backend/public/insuranceUploads/paramedical-sample-receipt.jpg");
+// })
 
 
-router.post("uploadInsurance", (res, req) => {
+
+router.post('/insuranceUpload', (req, res) => {
+  console.log("INSURANCE UPLOAD POSTED")
+  // Check for upload
   if (!req.files || Object.keys(req.files).length === 0) {
     return res.status(400).send('No files were uploaded.');
   }
-  const insuranceFile = req.files.insuranceFile
-  const uploadPath = process.env.INSURANCE_FILE_PATH + insuranceFile.name
+  // Upload
+  insuranceFile = req.files.insuranceFile;
+  uploadPath = process.env.INSURANCE_FILE_PATH + insuranceFile.name;
   insuranceFile.mv(uploadPath, (err) => {
-    if (err) {
-      return res.status(500).send(err)
-    }
-    res.send('File uploaded!')
+    if (err) {return res.status(500).send(err);}
   })
+  // Rename file
+  const insuranceFileId = v4()
+  const fileExtension = path.extname(uploadPath)
+  console.log(fileExtension)
+  fs.renameSync(uploadPath, process.env.INSURANCE_FILE_PATH + insuranceFileId + fileExtension)
 
-//   var options = {
-//     root: path.join(__dirname)
-//   };
- 
-// var fileName = 'GeeksforGeeks.txt';
 
 })
+
+
+
+
+
+
+
+
+
+
+
+// router.post("/uploadInsurance", (req, res) => {
+//   console.log(req.files)
+
+//   if (!req.files || Object.keys(req.files).length === 0) {
+//     console.log("Null")
+//     return res.status(400).send('No files were uploaded.');
+//   }
+
+//   console.log(req.files)
+//   const insuranceFile = req.files.insuranceFile
+//   console.log(insuranceFile)
+
+//   const uploadPath = process.env.INSURANCE_FILE_PATH + insuranceFile.name
+//   console.log('CALLLLLED');
+//   console.log(uploadPath);
+//   insuranceFile.mv(uploadPath, (err) => {
+//     if (err) {
+//       return res.status(500).send(err)
+//     }
+//     res.send('File uploaded!')
+//   })
+
+// //   var options = {
+// //     root: path.join(__dirname)
+// //   };
+ 
+// // var fileName = 'GeeksforGeeks.txt';
+
+// })
 
 
 
