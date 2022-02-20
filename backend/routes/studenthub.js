@@ -69,8 +69,8 @@ const deleteDeals = async () => {
 //     },
 //     {
 //         company: "Apple",
-//         title:"New subscribers get 6 months free with your eligible AirPods, HomePod mini or Beats*",
-//         code: "No Code Needed",
+//         title:"New subscribers get 6 months Apple Music free with your eligible AirPods, HomePod mini or Beats*",
+//         code: "MUSIC6",
 //         toc: "*Offer is available for new subscribers with an eligible device for a limited time only. Plan automatically renews at $9.99 per month until cancelled. No purchase necessary for current owners of eligible devices. Service availability varies by region. Restrictions and other terms apply.",
 //     },
 //     {

@@ -7,6 +7,7 @@ const bodyParser = require("body-parser")
 const app = express()
 app.use(cors())
 app.use(bodyParser.json())
+app.use(bodyParser.urlencoded({ extended: false }));
 
 const admin = require('firebase-admin')
 const serviceAccount = require('./firebaseAPI');
@@ -21,7 +22,9 @@ app.use("/learn", require("./routes/learn"))
 app.use("/studenthub", require("./routes/studenthub"))
 
 
-app.get("/", (req, res) => {return res.send("Backend Live")})
+app.get("/", (req, res) => {
+    return res.sendFile(__dirname + "/upload.html")
+})
 
 
 
