@@ -5,9 +5,11 @@ const cors = require("cors")
 const axios = require('axios')
 const fileUpload = require("express-fileupload")
 const path = require('path');
+const fs = require('fs')
 
 const admin = require("firebase-admin");
 const db = admin.firestore()
+const insuranceDB = db.collection("insurance")
 
 router.use(fileUpload())
 router.use(cors())
@@ -94,7 +96,10 @@ const func = async () => {
 
 
 
+const createClaim = async (company, companyAddress, companyInfo, date, amount, fileId) => {
 
+  // await insuranceDB.set
+}
 
 
 
