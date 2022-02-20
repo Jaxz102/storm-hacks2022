@@ -7,6 +7,12 @@ const admin = require("firebase-admin");
 const db = admin.firestore()
 const learnDB = db.collection("learn")
 
+const parseDate = (date) => {
+    const prettyDate = date.split(" ").slice(1, 4).join(" ")
+    const prettyTime = date.split(" ")[4].slice(0, -3)
+    return {prettyTime: prettyTime, prettyDate: prettyDate}
+}
+
 
 
 // Get list of videos
@@ -36,9 +42,10 @@ const addVideos = async (videoLinks) => {
     for (link of videoLinks) {
         const id = v4()
         const video = await axios.get(`https://www.youtube.com/oembed?url=${link}&format=json`)
+        const videoLink = video.data.html.split(" ")[3].split('"')[1]
         await learnDB.doc(id).set(video.data)
         await learnDB.doc(id).set({
-            videoLink: link
+            videoLink: videoLink
         }, {merge: true})
     }
 }
@@ -58,5 +65,7 @@ const deleteVideos = async () => {
 //     "https://www.youtube.com/watch?v=N2BHZjO5a7Q&list=PLRz9ao70iRy1L-MCczfyZDMHQZcduFCvw&index=7"
 // ])
 // deleteVideos()
+
+
 
 module.exports = router

@@ -7,6 +7,12 @@ const admin = require("firebase-admin");
 const db = admin.firestore()
 const studenthubDB = db.collection("studenthub")
 
+const parseDate = (date) => {
+    const prettyDate = date.split(" ").slice(1, 4).join(" ")
+    const prettyTime = date.split(" ")[4].slice(0, -3)
+    return {prettyTime: prettyTime, prettyDate: prettyDate}
+}
+
 
 router.get("/", async (req, res) => {
     var studentDeals = []
@@ -34,13 +40,15 @@ const addDeal = async (deals) => {
     await deals.forEach(async (deal) => {
         console.log("Adding student deal")
         const id = v4()
+        const expiry = parseDate((new Date(new Date('December 31, 2022 23:59:59'))).toString())
         await studenthubDB.doc(id).set({
             id:id,
             company: deal.company,
             title:deal.title,
             code:deal.code,
             toc:deal.toc,
-            expiryDate: (new Date(new Date('December 31, 2022 23:59:59'))).toString()
+            prettyDate: expiry.prettyDate,
+            prettyTime: expiry.prettyTime
         })
     })
 }
@@ -73,7 +81,5 @@ const deleteDeals = async () => {
 //     }
 // ])
 // deleteDeals()
-
-
 
 module.exports = router

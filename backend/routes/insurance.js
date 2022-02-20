@@ -6,6 +6,12 @@ const axios = require('axios')
 const admin = require("firebase-admin");
 const db = admin.firestore()
 
+const parseDate = (date) => {
+  const prettyDate = date.split(" ").slice(1, 4).join(" ")
+  const prettyTime = date.split(" ")[4].slice(0, -3)
+  return {prettyTime: prettyTime, prettyDate: prettyDate}
+}
+
 
 // const uploadImage = async (imagePath) => {
 
@@ -67,8 +73,6 @@ const func = async () => {
 //     console.log("Done!")
 //     return res.send(data)
 // })
-
-
 
 
 module.exports = router
