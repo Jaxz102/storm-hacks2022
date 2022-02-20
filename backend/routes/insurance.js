@@ -5,12 +5,11 @@ const cors = require("cors")
 const axios = require('axios')
 const fileUpload = require("express-fileupload")
 const path = require('path');
+const fs = require('fs')
 
 const admin = require("firebase-admin");
 const db = admin.firestore()
-
-router.use(fileUpload())
-router.use(cors())
+const insuranceDB = db.collection("insurance")
 
 const parseDate = (date) => {
   const prettyDate = date.split(" ").slice(1, 4).join(" ")
@@ -18,38 +17,38 @@ const parseDate = (date) => {
   return {prettyTime: prettyTime, prettyDate: prettyDate}
 }
 
-router.get("/", (req, res) => {
-  var options = {
-    root: "C:/Users/Ryan Lam/Desktop/storm-hacks2022/backend/public/insuranceUploads/"
-  };
-  var fileName = 'paramedical-sample-receipt.jpg';
+// router.get("/", (req, res) => {
+//   var options = {
+//     root: "C:/Users/Ryan Lam/Desktop/storm-hacks2022/backend/public/insuranceUploads/"
+//   };
+//   var fileName = 'paramedical-sample-receipt.jpg';
 
-  res.sendFile("C:/Users/Ryan Lam/Desktop/storm-hacks2022/backend/public/insuranceUploads/paramedical-sample-receipt.jpg");
-})
+//   res.sendFile("C:/Users/Ryan Lam/Desktop/storm-hacks2022/backend/public/insuranceUploads/paramedical-sample-receipt.jpg");
+// })
 
 
-router.post("/uploadInsurance", (res, req) => {
+router.post('/insuranceUpload', async (req, res) => {
+  console.log("INSURANCE UPLOAD POSTED")
+  // Check for upload
   if (!req.files || Object.keys(req.files).length === 0) {
     return res.status(400).send('No files were uploaded.');
   }
-  const insuranceFile = req.files.insuranceFile
-  const uploadPath = process.env.INSURANCE_FILE_PATH + insuranceFile.name
-  console.log('CALLLLLED');
-  console.log(uploadPath);
-  insuranceFile.mv(uploadPath, (err) => {
-    if (err) {
-      return res.status(500).send(err)
-    }
-    res.send('File uploaded!')
+  // Upload
+  var insuranceFile = req.files.insuranceFile;
+  uploadPath = process.env.INSURANCE_FILE_PATH + insuranceFile.name;
+  var insuranceFileId = await insuranceFile.mv(uploadPath, (err) => {
+    if (err) {return res.status(500).send(err);}
   })
+  // Rename file
+  insuranceFileId = v4()
+  const fileExtension = path.extname(uploadPath)
+  const renameFilePath = process.env.INSURANCE_FILE_PATH + insuranceFileId + fileExtension
+  fs.renameSync(uploadPath, renameFilePath)
 
-//   var options = {
-//     root: path.join(__dirname)
-//   };
- 
-// var fileName = 'GeeksforGeeks.txt';
 
+  setTimeout(()=>res.sendFile(renameFilePath), 2000)
 })
+
 
 
 
@@ -96,7 +95,10 @@ const func = async () => {
 
 
 
+const createClaim = async (company, companyAddress, companyInfo, date, amount, fileId) => {
 
+  // await insuranceDB.set
+}
 
 
 
