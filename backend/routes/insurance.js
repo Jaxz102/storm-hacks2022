@@ -28,12 +28,14 @@ router.get("/", (req, res) => {
 })
 
 
-router.post("uploadInsurance", (res, req) => {
+router.post("/uploadInsurance", (res, req) => {
   if (!req.files || Object.keys(req.files).length === 0) {
     return res.status(400).send('No files were uploaded.');
   }
   const insuranceFile = req.files.insuranceFile
   const uploadPath = process.env.INSURANCE_FILE_PATH + insuranceFile.name
+  console.log('CALLLLLED');
+  console.log(uploadPath);
   insuranceFile.mv(uploadPath, (err) => {
     if (err) {
       return res.status(500).send(err)

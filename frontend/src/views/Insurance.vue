@@ -4,6 +4,10 @@
         <img id="img" src="../assets/images/Apple.png" alt="" class="selectable" @mousedown="mouseDown($event)" @mouseup="mouseUp($event)" @mousemove="mouseMove($event)">
         <canvas id="canvas" width="800" height="650" @mousedown="mouseDown($event)" @mouseup="mouseUp($event)" @mousemove="mouseMove($event)"></canvas>
 
+        <section class="upload__form">
+                <input type="file" id="photoinput">
+                <button class="upload__form--button" @click="uploadFile()">Upload</button>
+        </section>
     </main>
 </template>
 <script>
@@ -62,6 +66,39 @@ export default {
             let ctx = canvas.getContext('2d');
             ctx.setLineDash([6]);
             ctx.strokeRect(this.rect.startX, this.rect.startY, this.rect.w, this.rect.h);
+        },
+        uploadFile(){
+            console.log("1");
+			let input = document.getElementById("photoinput");
+            console.log("2");
+
+            const fd = new FormData();
+            console.log("3");
+            fd.append('myFile', input.files[0]);
+            console.log("4");
+			const prom = fetch('http://localhost:3000/insurance/uploadInsurance', {
+        		method: 'POST',
+        		body: fd
+    		}).then(res => res.json()).then(data => {
+				console.log(data);
+			})
+			.catch(err => console.error(err));
+		},
+        fileChange(e){
+            let files = e.target.files
+            let formData = new FormData()
+            formData.append('myFile', files[0])
+
+            const prom = fetch('http://localhost:3000/insurance/uploadInsurance', {
+			
+        		method: 'POST',
+                headers: {'Content-Type': 'multipart/form-data'},
+        		body: formData
+    		}).then(res => res.json()).then(data => {
+				console.log(data);
+			}).catch(err => console.error(err));
+
+
         }
     },
     mounted(){
