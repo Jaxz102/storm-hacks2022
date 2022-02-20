@@ -1,8 +1,8 @@
 <template>
     <main class="main">
         <h1>Insurance</h1>
-        <img id="img" src="../assets/images/Apple.png" alt="" class="selectable" @mousedown="mouseDown($event)" @mouseup="mouseUp($event)" @mousemove="mouseMove($event)">
-        <canvas id="canvas" width="800" height="650" @mousedown="mouseDown($event)" @mouseup="mouseUp($event)" @mousemove="mouseMove($event)"></canvas>
+        <!-- <img id="img" src="../assets/images/Apple.png" alt="" class="selectable"> -->
+        <canvas id="canvas" :width="canvasWidth" :height="canvasHeight" @mousedown="mouseDown($event)" @mouseup="mouseUp($event)" @mousemove="mouseMove($event)"></canvas>
 
         <section class="upload__form">
                 <input type="file" id="photoinput">
@@ -23,9 +23,12 @@ export default {
             drag: false,
             startpos: [],
             endpos: [],
-            offsetLeft: 0,
-            offsetTop: 0
-
+            offLeft: 0,
+            offTop: 0,
+            canvas: null,
+            ctx: null,
+            canvasHeight: "400",
+            canvasWidth: "350"
         }
     },
     methods:{
@@ -39,33 +42,33 @@ export default {
             // var y = e.clientY - rect.top;  //y position within the element.
             // console.log("Left? : " + x + " ; Top? : " + y + ".");
 
-            this.rect.startX = e.pageX - this.offsetLeft;
-            this.rect.startY = e.pageY - this.offsetTop;
+            this.rect.startX = e.pageX - this.offLeft;
+            this.rect.startY = e.pageY - this.offTop;
             this.drag = true;
         },
         mouseUp(e){
             this.drag = false;
-            let canvas = document.getElementById('canvas');
-            let ctx = canvas.getContext('2d');
-            ctx.clearRect(0,0,canvas.width,canvas.height);
+            // let canvas = document.getElementById('canvas');
+            // let ctx = canvas.getContext('2d');
+            this.ctx.clearRect(0,0,this.canvas.width,this.canvas.height);
         },
         mouseMove(e){
             if (this.drag == true) {
-                let canvas = document.getElementById('canvas');
-                let ctx = canvas.getContext('2d');
-
-                this.rect.w = (e.pageX - this.offsetLeft) -  this.rect.startX;
-                this.rect.h = (e.pageY - this.offsetTop) - this.rect.startY;
-                ctx.clearRect(0,0,canvas.width,canvas.height);
+                // let canvas = document.getElementById('canvas');
+                // let ctx = canvas.getContext('2d');
+           
+                this.rect.w = (e.pageX - this.offLeft) -  this.rect.startX;
+                this.rect.h = (e.pageY - this.offTop) - this.rect.startY;
+                this.ctx.clearRect(0,0,this.canvas.width,this.canvas.height);
                 this.draw();
             }
         },
         draw(){
-            console.log("DRAW IS CALLED");
-            let canvas = document.getElementById('canvas');
-            let ctx = canvas.getContext('2d');
-            ctx.setLineDash([6]);
-            ctx.strokeRect(this.rect.startX, this.rect.startY, this.rect.w, this.rect.h);
+        
+            // let canvas = document.getElementById('canvas');
+            // let ctx = canvas.getContext('2d');
+            this.ctx.setLineDash([6]);
+            this.ctx.strokeRect(this.rect.startX, this.rect.startY, this.rect.w, this.rect.h);
         },
         uploadFile(){
             console.log("1");
@@ -105,8 +108,12 @@ export default {
         this.$store.commit("changeTab", 1);
 
         let canvas = document.getElementById('canvas');
-        this.offsetLeft = canvas.offsetLeft;
-        this.offsetTop = canvas.offsetTop;
+        this.offLeft = canvas.offsetLeft;
+        this.offTop = canvas.offsetTop;
+        console.log(this.offLeft);
+        console.log(this.offTop);
+        this.canvas = canvas;
+        this.ctx = canvas.getContext('2d');
         
 
         
@@ -134,5 +141,8 @@ img{
 
 #canvas{
     background-color: rgba(252, 117, 117, 0.445);
+    margin-top: 20px;
+    margin-left: 20px;
+ 
 }
 </style>

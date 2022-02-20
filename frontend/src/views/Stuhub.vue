@@ -2,13 +2,13 @@
     <main class="main" :style="{'background-color': styles.bgcolour[getMode]}">
         <h1 :style="{'color': styles.headertext[getMode]}">Student Hub</h1>
 
-        <section class="coupon" v-for="item in coupons" :style="{'background-color': styles.transactionbg[getMode], 'border-color': styles.transboxborder[getMode]}">
+        <section class="coupon" v-for="(item, index) in coupons" :style="{'background-color': styles.transactionbg[getMode], 'border-color': styles.transboxborder[getMode]}">
             <img class="coupon__logo" :src="require(`../assets/images/${item.company}.png`)" alt="">
             <div class="coupon__info">
                 <h2 class="coupon__info--title" :style="{'color': styles.headertext[getMode]}">{{item.title}}</h2>
                 <p class="coupon__info--time" :style="{'color': styles.normaltext[getMode]}">{{item.prettyDate}} &#x2022 {{item.prettyTime}}</p>
             </div>
-            <button class="coupon__copy">{{item.code}}</button>
+            <button class="coupon__copy" @click="copy(index)">{{item.code}}</button>
         </section>
         <footer></footer>
     </main>
@@ -28,6 +28,17 @@ export default {
     computed:{
         getMode(){
             return this.$store.state.dark;
+        }
+    },
+    methods: {
+        copy(index){
+   
+
+            /* Copy the text inside the text field */
+            navigator.clipboard.writeText(str(this.coupons[index].code));
+            
+            /* Alert the copied text */
+            alert("Copied the text: " + this.coupons[index].code);
         }
     },
     mounted(){
