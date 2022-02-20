@@ -27,67 +27,28 @@ const parseDate = (date) => {
 // })
 
 
-
-router.post('/insuranceUpload', (req, res) => {
+router.post('/insuranceUpload', async (req, res) => {
   console.log("INSURANCE UPLOAD POSTED")
   // Check for upload
   if (!req.files || Object.keys(req.files).length === 0) {
     return res.status(400).send('No files were uploaded.');
   }
   // Upload
-  insuranceFile = req.files.insuranceFile;
+  var insuranceFile = req.files.insuranceFile;
   uploadPath = process.env.INSURANCE_FILE_PATH + insuranceFile.name;
-  insuranceFile.mv(uploadPath, (err) => {
+  var insuranceFileId = await insuranceFile.mv(uploadPath, (err) => {
     if (err) {return res.status(500).send(err);}
   })
   // Rename file
-  const insuranceFileId = v4()
+  insuranceFileId = v4()
   const fileExtension = path.extname(uploadPath)
-  console.log(fileExtension)
-  fs.renameSync(uploadPath, process.env.INSURANCE_FILE_PATH + insuranceFileId + fileExtension)
+  const renameFilePath = process.env.INSURANCE_FILE_PATH + insuranceFileId + fileExtension
+  fs.renameSync(uploadPath, renameFilePath)
 
 
+  setTimeout(()=>res.sendFile(renameFilePath), 2000)
 })
 
-
-
-
-
-
-
-
-
-
-
-// router.post("/uploadInsurance", (req, res) => {
-//   console.log(req.files)
-
-//   if (!req.files || Object.keys(req.files).length === 0) {
-//     console.log("Null")
-//     return res.status(400).send('No files were uploaded.');
-//   }
-
-//   console.log(req.files)
-//   const insuranceFile = req.files.insuranceFile
-//   console.log(insuranceFile)
-
-//   const uploadPath = process.env.INSURANCE_FILE_PATH + insuranceFile.name
-//   console.log('CALLLLLED');
-//   console.log(uploadPath);
-//   insuranceFile.mv(uploadPath, (err) => {
-//     if (err) {
-//       return res.status(500).send(err)
-//     }
-//     res.send('File uploaded!')
-//   })
-
-// //   var options = {
-// //     root: path.join(__dirname)
-// //   };
- 
-// // var fileName = 'GeeksforGeeks.txt';
-
-// })
 
 
 
